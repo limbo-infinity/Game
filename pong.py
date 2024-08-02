@@ -52,7 +52,7 @@ def colliding(rectangle_y, circle_vx, circle_y, circle_vy):
     bottom = circle_y + circle_radius
     if (((bottom > rectangle_y) and (bottom < rectangle_y + rect1_height)) or 
         ((top > rectangle_y) and (top < rectangle_y + rect1_height))):
-        return ((circle_vx * (-speed_mult)), circle_vy)
+        return ((circle_vx * (-speed_mult)), circle_vy * speed_mult)
     
     return (circle_vx, circle_vy)
 
