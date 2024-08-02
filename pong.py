@@ -5,6 +5,7 @@ import random
 py.init()
 
 WHITE = (255, 255, 255)
+RED = (255, 0, 0)
 
 MAX_X = 1200
 MAX_Y = 800
@@ -56,13 +57,49 @@ def colliding(rectangle_y, circle_vx, circle_y, circle_vy):
     
     return (circle_vx, circle_vy)
 
+def render_font(side):
+    font = py.font.Font(None, 74)  
+    win = ''
+    if side == 'right':
+        win = font.render('Player 1 wins!', True, RED)
+        print('right is renderec')
+    if side == 'left':
+        win = font.render('Player 2 wins!', True, RED)
+        print('left is renderec')
+    text_rect = win.get_rect()
+    text_rect.center = (MAX_X/2, MAX_Y/2)
+    print()
+    screen.blit(win, text_rect)
+    
+
+
+def game_over(circle_x, circle_radius, rendered):
+    # # if rendered:
+    #     return True
+    if (circle_x + circle_radius > MAX_X):
+        render_font('right')
+        print('right')
+        return True
+    elif (circle_x - circle_radius < 0):
+        render_font('left')
+        print('left')
+        return True
+    else:
+        return False
+        
+
+rendered = False
 while True:
+    
+    #Check if game is over
+    rendered = game_over(circle_x, circle_radius, rendered)
     
     for event in py.event.get():
         if event.type == py.QUIT:
             py.quit()
             sys.exit()
 
+    
     keys = py.key.get_pressed()
     if (rect1_y <= (MAX_Y - rect1_height)) and (rect1_y >= 0):
         if keys[py.K_w]:
@@ -84,7 +121,6 @@ while True:
     else:
         rect2_y += RECT_MOVE
         
-    # Fill the screen with a color (RGB)
     
     # Update circle position 
     if (circle_x - circle_radius < rect1_x + rect1_width):
@@ -106,13 +142,16 @@ while True:
     
     screen.fill((0, 128, 255))
     
-    # Draw a simple shape (rectangle)
-    py.draw.rect(screen, WHITE, (rect1_x, rect1_y, rect1_width, rect1_height))
-    py.draw.rect(screen, WHITE, (rect2_x, rect2_y, rect2_width, rect2_height))
-    py.draw.circle(screen, WHITE, (circle_x, circle_y), circle_radius)
+    #Draw the shapes
     
-    # Update the display
+    if not rendered:
+        py.draw.circle(screen, WHITE, (circle_x, circle_y), circle_radius)
+        py.draw.rect(screen, WHITE, (rect1_x, rect1_y, rect1_width, rect1_height))
+        py.draw.rect(screen, WHITE, (rect2_x, rect2_y, rect2_width, rect2_height))
+    
+    # update display
     py.display.flip()
     
-    # Cap the frame rate at 60 frames per second
+    
+    # cap frame rate at 60
     clock.tick(60)
