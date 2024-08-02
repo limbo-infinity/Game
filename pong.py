@@ -20,15 +20,15 @@ RECT_MOVE = 0.5
 rect1_x = 20
 rect1_y = MAX_Y/2 - 50
 rect1_width = 30
-rect1_height = 100
-rect1_speed = 7
+rect1_height = 130
+rect1_speed = 10
 
 #rectangle2 properties
 rect2_x = MAX_X-50
 rect2_y = MAX_Y/2 - 50
 rect2_width = 30
-rect2_height = 100
-rect2_speed = 7
+rect2_height = 130
+rect2_speed = 10
 
 
 #circle properties
@@ -38,6 +38,7 @@ circle_y = MAX_Y/2
 # circle_vy = 0
 circle_radius = 10
 C_SPEED = MAX_Y/100 - 3
+speed_mult = 1.15
 
 clock = py.time.Clock()
 
@@ -51,7 +52,7 @@ def colliding(rectangle_y, circle_vx, circle_y, circle_vy):
     bottom = circle_y + circle_radius
     if (((bottom > rectangle_y) and (bottom < rectangle_y + rect1_height)) or 
         ((top > rectangle_y) and (top < rectangle_y + rect1_height))):
-        return ((circle_vx * (-1)), circle_vy)
+        return ((circle_vx * (-speed_mult)), circle_vy)
     
     return (circle_vx, circle_vy)
 
@@ -91,7 +92,7 @@ while True:
         circle_vx = result[0]
         circle_vy = result[1]
     elif (circle_x + circle_radius > rect2_x):
-        result = colliding(rect2_y, circle_vx, circle_y, circle_y)
+        result = colliding(rect2_y, circle_vx, circle_y, circle_vy)
         circle_vx = result[0]
         circle_vy = result[1]
         
