@@ -2,4 +2,4 @@
 
 -------------------
 
-This is my attempt at Pong written in Python using pygame
+A rewrite of the classic game using Python's pygame library.
