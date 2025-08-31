@@ -2,4 +2,4 @@
 
 -------------------
 
-This is my attempt at Pong coded in python
+This is my attempt at Pong written in Python
